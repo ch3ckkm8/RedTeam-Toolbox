@@ -76,7 +76,7 @@ download_peas() {
 
 # Function to download Netcat
 download_netcat() {
-    local output_dir="peas_files"
+    local output_dir="toolbox"
     
     # Create directory for files
     mkdir -p "$output_dir"
@@ -112,7 +112,7 @@ download_netcat() {
 
 # Function to download Ligolo-ng (amd64 only)
 download_ligolo() {
-    local output_dir="peas_files"
+    local output_dir="toolbox"
     local version="0.8.2"  # Latest stable version as of 2025
     
     # Create directory for files
@@ -169,7 +169,7 @@ download_ligolo() {
     
     print_color "✓ Ligolo-ng downloads completed!" $GREEN
     print_color ""
-    print_color "Files now available in ./peas_files/:" $YELLOW
+    print_color "Files now available in ./toolbox/:" $YELLOW
     ls -lh | grep -E "ligolo|proxy|agent" | while read line; do
         print_color "  $line" $BLUE
     done
@@ -180,7 +180,7 @@ download_ligolo() {
 # Function to start Python HTTP server
 start_server() {
     local port=8001
-    local directory="peas_files"
+    local directory="toolbox"
     
     if [ ! -d "$directory" ]; then
         print_color "Error: $directory directory not found!" $RED
@@ -331,8 +331,8 @@ case $choice in
         download_ligolo
         ;;
     7)
-        if [ ! -d "peas_files" ] || [ -z "$(ls -A peas_files 2>/dev/null)" ]; then
-            print_color "Warning: No files found in peas_files directory!" $RED
+        if [ ! -d "toolbox" ] || [ -z "$(ls -A toolbox 2>/dev/null)" ]; then
+            print_color "Warning: No files found in toolbox directory!" $RED
             read -p "Do you want to download them now? (y/n): " download_now
             if [[ $download_now =~ ^[Yy]$ ]]; then
                 print_color "Select files to download:" $YELLOW
@@ -372,7 +372,7 @@ read -p "Do you want to start the HTTP server now? (y/n): " start_now
 if [[ $start_now =~ ^[Yy]$ ]]; then
     start_server
 else
-    print_color "Exiting. Files are saved in ./peas_files/" $YELLOW
+    print_color "Exiting. Files are saved in ./toolbox/" $YELLOW
     print_color "To start the server later, run: $0 and choose option 7" $BLUE
     exit 0
 fi
