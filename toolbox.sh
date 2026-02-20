@@ -28,7 +28,7 @@ check_python() {
 # Function to download PEAS
 download_peas() {
     local type=$1
-    local output_dir="peas_files"
+    local output_dir="toolbox"
     
     # Create directory for PEAS files
     mkdir -p "$output_dir"
