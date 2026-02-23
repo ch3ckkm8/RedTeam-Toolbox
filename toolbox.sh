@@ -43,6 +43,9 @@ download_peas() {
 
     wget -q --show-progress https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEASx86.exe -O winpeas86.exe
     check_file winpeas86.exe
+    
+    wget -q --show-progress https://github.com/carlospolop/PEASS-ng/releases/latest/download/winPEAS.bat -O winpeas.bat
+    check_file winpeas.bat
 
     wget -q --show-progress https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh -O linpeas.sh
     check_file linpeas.sh && chmod +x linpeas.sh
