@@ -79,7 +79,8 @@ download_ligolo() {
 
     proxy_url=$(echo "$API" | grep browser_download_url | grep proxy | grep linux | cut -d '"' -f4 | head -n1)
     agent_linux_url=$(echo "$API" | grep browser_download_url | grep agent | grep linux | cut -d '"' -f4 | head -n1)
-    agent_win_url=$(echo "$API" | grep browser_download_url | grep agent | grep windows | cut -d '"' -f4 | head -n1)
+    agent_win_url=$(echo "$API" | grep browser_download_url | grep agent | grep windows | grep amd64 | cut -d '"' -f4 | head -n1)
+
 
     print_color "Downloading Ligolo..." $YELLOW
 
@@ -95,9 +96,9 @@ download_ligolo() {
         chmod +x agent 2>/dev/null
     fi
 
-    wget -q --show-progress "$agent_win_url" -O agent.zip
-    if check_file agent.zip && command -v unzip &>/dev/null; then
-        unzip -oq agent.zip < /dev/null
+    wget -q --show-progress "$agent_win_url" -O agent_windows_amd64.zip
+    if check_file agent_windows_amd64.zip && command -v unzip &>/dev/null; then
+        unzip -oq agent_windows_amd64.zip -d agent_windows_amd64/ < /dev/null
     fi
 
     cd - >/dev/null
@@ -110,8 +111,11 @@ start_server() {
     local port=8001
     cd toolbox || exit
 
-    IP=$(hostname -I 2>/dev/null | awk '{print $1}')
-    [ -z "$IP" ] && IP="YOUR-IP"
+    	IP=$(ip addr show tun0 2>/dev/null | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1)
+	if [ -z "$IP" ]; then
+	    print_color "Warning: tun0 interface not found or has no IP" $RED
+	    IP="tun0-not-available"
+	fi
 
     print_color "Server: http://$IP:$port" $GREEN
     print_color "Press Ctrl+C to stop" $YELLOW
